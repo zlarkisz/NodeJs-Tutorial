@@ -1,9 +1,11 @@
 const fs = require('fs')
 
-fs.readFile('text.txt', 'utf8', (err, data) => {
-  console.log(data);
-})
+fs.unlink('./new-one/some_new.txt', () => {})
 
-fs.writeFile('some.txt', 'Hi it is me from writeFile !', (err, data) => {})
+fs.rmdir('new-one', () => {})
 
-console.log('Test');
+// fs.mkdir('new-one', () => {
+//   fs.writeFile('./new-one/some_new.txt', 'Wrote text for some_new.txt file', () => {
+//     console.log('Everithing worked');
+//   })
+// })
