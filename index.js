@@ -1,12 +1,10 @@
-const http = require('http')
+const fs = require('fs')
 
-const server = http.createServer((req, res) => {
-  console.log(`Page URL is ${req.url}`);
-  res.writeHead(200, {
-    'Content-Type': 'text/plain; charset=utf-8'
-  });
-  res.end('Hello, Pedro !')
+const myReadShort = fs.createReadStream(__dirname + '/article.txt')
+let myWriteShort = fs.createWriteStream(__dirname + '/news.txt')
+
+myReadShort.on('data', (chunk) => {
+  console.log('Got new data');
+
+  myWriteShort.write(chunk)
 })
-
-server.listen(3000, '192.168.0.102')
-console.log('We are listetning port 3000');
