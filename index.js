@@ -1,11 +1,3 @@
-let x = 0
+const counter = require('./array')
 
-if (x === 0) {
-  console.log('work');
-}
-
-for (let i = 0; i <= 5; i++) console.log(i);
-
-setTimeout(() => {
-  console.log('hello');
-}, 2000);
+console.log(counter([1, 2, 3, 4]))
