@@ -1,11 +1,12 @@
-const fs = require('fs')
+const http = require('http')
 
-fs.unlink('./new-one/some_new.txt', () => {})
+const server = http.createServer((req, res) => {
+  console.log(`Page URL is ${req.url}`);
+  res.writeHead(200, {
+    'Content-Type': 'text/plain; charset=utf-8'
+  });
+  res.end('Hello, Pedro !')
+})
 
-fs.rmdir('new-one', () => {})
-
-// fs.mkdir('new-one', () => {
-//   fs.writeFile('./new-one/some_new.txt', 'Wrote text for some_new.txt file', () => {
-//     console.log('Everithing worked');
-//   })
-// })
+server.listen(3000, '192.168.0.102')
+console.log('We are listetning port 3000');
