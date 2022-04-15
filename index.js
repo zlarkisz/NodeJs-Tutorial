@@ -1,17 +1,23 @@
 const express = require('express');
-
 const app = express();
 
+app.set('view engine', 'ejs');
+
 app.get('/', (req, res) => {
-  res.send('This is HOME page`')
+  res.sendFile(__dirname + '/index.html')
 })
 
-app.get('/news', (req, res) => {
-  res.send('This is NEWS page')
+app.get('/about', (req, res) => {
+  res.sendFile(__dirname + '/about.html')
 })
 
-app.get('/news/:id/:name', (req, res) => {
-  res.send(`ID is: ${req.params.id} ${req.params.name}`)
+app.get('/news/:id', (req, res) => {
+  const obj = {
+    title: 'News',
+    id: 4,
+    paragraphs: ['Paragraph', 'Default text', 'Some numbers; 1, 45, 1313.17', 99]
+  };
+  res.render('news', { newsId: req.params.id, newParam: 234, obj })
 })
 
 app.listen(3000)
