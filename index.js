@@ -1,22 +1,17 @@
-const fs = require('fs')
+const express = require('express');
 
-// connect to local servre
-const http = require('http')
+const app = express();
 
-const server = http.createServer((req, res) => {
-  console.log(`Request url: ${req.url}`);
-
-  if (req.url === '/index' || req.url === '/') {
-    res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' })
-    fs.createReadStream(__dirname + '/index.html').pipe(res)
-  } else if (req.url === '/about') {
-    res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' })
-    fs.createReadStream(__dirname + '/about.html').pipe(res)
-  } else {
-    res.writeHead(404, { 'Content-Type': 'text/html; charset=utf-8' });
-    fs.createReadStream(__dirname + '/404.html').pipe(res)
-  }
+app.get('/', (req, res) => {
+  res.send('This is HOME page`')
 })
 
-server.listen(3000, '192.168.0.102')
-console.log('We are listening 3000 port');
+app.get('/news', (req, res) => {
+  res.send('This is NEWS page')
+})
+
+app.get('/news/:id/:name', (req, res) => {
+  res.send(`ID is: ${req.params.id} ${req.params.name}`)
+})
+
+app.listen(3000)
