@@ -2,13 +2,14 @@ const express = require('express');
 const app = express();
 
 app.set('view engine', 'ejs');
+app.use(express.static('public'))
 
 app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/index.html')
+  res.render('index')
 })
 
 app.get('/about', (req, res) => {
-  res.sendFile(__dirname + '/about.html')
+  res.render('about')
 })
 
 app.get('/news/:id', (req, res) => {
