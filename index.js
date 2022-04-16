@@ -1,5 +1,9 @@
 const express = require('express');
+const bodyParser = require('body-parser')
+
 const app = express();
+
+const urlencodedParser = bodyParser.urlencoded({ extended: false })
 
 app.set('view engine', 'ejs');
 app.use(express.static('public'))
@@ -10,6 +14,12 @@ app.get('/', (req, res) => {
 
 app.get('/about', (req, res) => {
   res.render('about')
+})
+
+app.post('/about', urlencodedParser, (req, res) => {
+  if (!req.body) return res.sendStatus(400)
+  console.log(req.body);
+  res.render('about-success', { data: req.body })
 })
 
 app.get('/news/:id', (req, res) => {
