@@ -1,34 +1,33 @@
-const express = require('express');
-const bodyParser = require('body-parser')
+const express = require('express')
+const app = express()
+const http = require('http')
+const server = http.createServer(app)
+const { Server } = require('socket.io')
+const io = new Server(server)
 
-const app = express();
-
-const urlencodedParser = bodyParser.urlencoded({ extended: false })
-
-app.set('view engine', 'ejs');
-app.use(express.static('public'))
-
-app.get('/', (req, res) => {
-  res.render('index')
+app.get('/', (request, respons) => {
+  respons.sendFile(__dirname + '/index.html')
 })
 
-app.get('/about', (req, res) => {
-  res.render('about')
+users = []
+connetctions = []
+
+io.on('connection', (socket) => {
+  console.log('connection success');
+  connetctions.push(socket)
+
+  socket.on('disconnect', (data) => {
+    connetctions.splice(connetctions.indexOf(socket), 1)
+    console.log('disconnection success');
+  })
+
+  socket.on('send message', data => {
+    io.emit('add mess', {
+      mess: data.mess,
+      name: data.name,
+      class: data.className
+    })
+  })
 })
 
-app.post('/about', urlencodedParser, (req, res) => {
-  if (!req.body) return res.sendStatus(400)
-  console.log(req.body);
-  res.render('about-success', { data: req.body })
-})
-
-app.get('/news/:id', (req, res) => {
-  const obj = {
-    title: 'News',
-    id: 4,
-    paragraphs: ['Paragraph', 'Default text', 'Some numbers; 1, 45, 1313.17', 99]
-  };
-  res.render('news', { newsId: req.params.id, newParam: 234, obj })
-})
-
-app.listen(3000)
+server.listen(3000)
